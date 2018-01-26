@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t halkeye/docker-node-red .'
+                sh 'docker build -t halkeye/node-red .'
             }
         }
 
@@ -21,7 +21,7 @@ pipeline {
             }
             steps {
                 sh 'docker login --username $DOCKER_USR --password=$DOCKER_PSW'
-                sh 'docker push halkeye/docker-node-red'
+                sh 'docker push halkeye/node-red'
             }
         }
     }
