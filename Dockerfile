@@ -20,6 +20,7 @@ RUN npm install \
   node-red-contrib-google-home-notify \
   node-red-contrib-harmony \
   node-red-contrib-home-assistant \
+  node-red-contrib-home-assistant-websocket \
   node-red-contrib-ifttt \
   node-red-contrib-mqtt-broker \
   node-red-contrib-owntracks \
