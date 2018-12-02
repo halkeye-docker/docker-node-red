@@ -1,15 +1,29 @@
-FROM nodered/node-red-docker
+FROM node:10
 USER root
-
-ADD https://deb.nodesource.com/setup_10.x setup_10.x
-RUN bash setup_10.x && rm setup_10.x
 
 #update and accept all prompts
 RUN apt-get update -y \
       && apt-get dist-upgrade -y \
-      && apt-get install -y libavahi-compat-libdnssd-dev libzmq-dev nodejs \
+      && apt-get install -y libavahi-compat-libdnssd-dev libzmq3-dev \
       && apt-get clean \
       && rm -rf /var/lib/apt/lists/*
+
+# User data directory, contains flows, config and nodes.
+RUN mkdir /data && chown -R 1000:1000 /data
+# User configuration directory volume
+VOLUME ["/data"]
+EXPOSE 1880
+
+USER node
+
+# package.json contains Node-RED NPM module and node dependencies
+WORKDIR /home/node
+RUN curl https://raw.githubusercontent.com/node-red/node-red-docker/master/package.json > package.json
+RUN npm install
+
+# Environment variable holding file path for flows configuration
+ENV FLOWS=flows.json
+
 RUN npm install \
   node-red-contrib-bigtimer \
   node-red-contrib-eventsource \
@@ -31,7 +45,6 @@ RUN npm install \
   node-red-contrib-tick \
   node-red-contrib-time-range-switch \
   node-red-dashboard \
-  node-red-node-discovery \
   node-red-node-forecastio \
   node-red-node-google \
   node-red-node-mysql \
@@ -42,5 +55,6 @@ RUN npm install \
   node-red-node-twilio \
   node-red-node-weather-underground \
   node-red-node-wol \
---save
-USER 1001
+  --save
+
+CMD ["npm", "start", "--", "--userDir", "/data"]
