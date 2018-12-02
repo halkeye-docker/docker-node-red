@@ -1,8 +1,8 @@
 FROM nodered/node-red-docker
 USER root
 
-ADD https://deb.nodesource.com/setup_9.x setup_9.x
-RUN bash setup_9.x && rm setup_9.x
+ADD https://deb.nodesource.com/setup_10.x setup_10.x
+RUN bash setup_10.x && rm setup_10.x
 
 #update and accept all prompts
 RUN apt-get update -y \
