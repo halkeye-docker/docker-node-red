@@ -7,7 +7,7 @@ RUN bash setup_10.x && rm setup_10.x
 #update and accept all prompts
 RUN apt-get update -y \
       && apt-get dist-upgrade -y \
-      && apt-get install -y libavahi-compat-libdnssd-dev nodejs \
+      && apt-get install -y libavahi-compat-libdnssd-dev libzmq-dev nodejs \
       && apt-get clean \
       && rm -rf /var/lib/apt/lists/*
 RUN npm install \
